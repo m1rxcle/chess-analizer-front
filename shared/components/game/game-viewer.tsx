@@ -25,6 +25,7 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 	const { username, gameId } = useParams<{ username: string; gameId: string }>()
 
 	const [game, setGame] = useState<TGame | undefined>()
+
 	const [currentMove, setCurrentMove] = useQueryState(
 		"move",
 		parseAsInteger.withDefault(0).withOptions({
@@ -66,7 +67,11 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 		previousMove,
 		nextMove,
 		lastMove,
-	} = useChessGame({ currentMove, setCurrentMove, loading: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis })
+	} = useChessGame({
+		currentMove,
+		setCurrentMove,
+		loading: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis,
+	})
 
 	useControlsKeydown({ previousMove, nextMove, firstMove, lastMove, disabled: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis })
 

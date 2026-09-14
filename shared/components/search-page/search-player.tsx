@@ -1,7 +1,9 @@
 "use client"
 
 import type { TGame } from "@/types/game.type"
+import type { TPaginationGamesResponse } from "@/types/pagination-games-response.type"
 import { Search } from "lucide-react"
+import { useQueryState } from "nuqs"
 import React, { useState } from "react"
 import { cn } from "../../lib/utils"
 import { Button } from "../../ui/button"
@@ -10,16 +12,17 @@ import { Input } from "../../ui/input"
 interface Props {
 	setLoading: React.Dispatch<React.SetStateAction<boolean>>
 	setGamesList: React.Dispatch<React.SetStateAction<TGame[]>>
+	setTotalGames: React.Dispatch<React.SetStateAction<number>>
 	className?: string
 }
 
-export const SearchPlayer: React.FC<Props> = ({ setLoading, setGamesList, className }) => {
+export const SearchPlayer: React.FC<Props> = ({ setLoading, setTotalGames, setGamesList, className }) => {
 	const [value, setValue] = useState("")
 	const [ErrorMessage, setErrorMessage] = useState("")
 
-	const onSubmit = async (value: string) => {
-		console.log(value)
+	const [, setPlayer] = useQueryState("player", { defaultValue: "" })
 
+	const onSubmit = async (value: string) => {
 		if (!value) {
 			setErrorMessage("Имя игрока не может быть пустым!")
 			return
@@ -29,11 +32,9 @@ export const SearchPlayer: React.FC<Props> = ({ setLoading, setGamesList, classN
 			setErrorMessage("")
 			setLoading(true)
 
-			const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API}/search/${value}`, {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API}/search/${value}?limit=10`, {
 				method: "GET",
 			})
-
-			console.log("Res", res)
 
 			if (!res.ok) {
 				setErrorMessage("Игрок не найден")
@@ -41,17 +42,14 @@ export const SearchPlayer: React.FC<Props> = ({ setLoading, setGamesList, classN
 				throw new Error("Player not found")
 			}
 
-			console.log("Res", res)
+			const data: TPaginationGamesResponse = await res.json()
 
-			const data: TGame[] = await res.json()
+			const games: TGame[] = data.games
 
-			const latestGames = [...data].sort((a, b) => Number(b.end_time) - Number(a.end_time))
+			setPlayer(value)
 
-			console.log(latestGames)
-
-			setGamesList(latestGames)
-
-			localStorage.setItem("Player", value)
+			setTotalGames(data.totalGames)
+			setGamesList(games)
 		} catch (error) {
 			if (error instanceof Error && error.message) {
 				console.log(error.message)
@@ -62,7 +60,7 @@ export const SearchPlayer: React.FC<Props> = ({ setLoading, setGamesList, classN
 	}
 
 	return (
-		<div className={cn("", className)}>
+		<div className={className}>
 			<div className="relative">
 				<Input
 					onChange={(e) => setValue(e.target.value)}

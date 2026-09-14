@@ -7,25 +7,29 @@ interface Props {
 	mode: TGameMode
 	gameId: string
 	username: string
+	manualMove?: { fenBefore: string; fenAfter: string; move: string } | null
 	enabled: boolean
 }
 
-export function useMoveAnalysis({ currentMove, mode, gameId, username, enabled }: Props) {
+export function useMoveAnalysis({ currentMove, mode, gameId, username, manualMove, enabled }: Props) {
 	const [currentMoveAnalysis, setCurrentMoveAnalysis] = useState<TStockfishAnalysisResponse | null>(null)
 	const [loadingCurrentMoveAnalysis, setLoadingCurrentMoveAnalysis] = useState(false)
-	const analyzeMoveRef = useRef<number | null>(null)
+	const analyzeMoveRef = useRef<string | null>(null)
 
 	useEffect(() => {
 		if (mode !== "analysis" || !enabled || currentMove === 0) return
 
-		if (analyzeMoveRef.current === currentMove) return
-		analyzeMoveRef.current = currentMove
+		const moveKey = manualMove?.move ? `manual:${currentMove}:${manualMove.move}` : `game:${currentMove}`
+
+		if (analyzeMoveRef.current === moveKey) return
+		analyzeMoveRef.current = moveKey
 
 		const getStockfishMove = async () => {
-			console.log("🔥 ANALYZE MOVE:", currentMove)
 			setLoadingCurrentMoveAnalysis(true)
 			try {
-				const response = await fetch(process.env.NEXT_PUBLIC_SERVER_API + `/${username}/${gameId}/analyze?move=${currentMove}`, {
+				const move = manualMove?.move ?? currentMove
+
+				const response = await fetch(process.env.NEXT_PUBLIC_SERVER_API + `/${username}/${gameId}/analyze?move=${move}`, {
 					method: "GET",
 				})
 
@@ -34,8 +38,6 @@ export function useMoveAnalysis({ currentMove, mode, gameId, username, enabled }
 				}
 
 				const moveAnalysis: TStockfishAnalysisResponse = await response.json()
-
-				console.log("moveAnalysis:", moveAnalysis)
 
 				setCurrentMoveAnalysis(moveAnalysis)
 			} catch (error) {
@@ -48,7 +50,7 @@ export function useMoveAnalysis({ currentMove, mode, gameId, username, enabled }
 		}
 
 		getStockfishMove()
-	}, [mode, currentMove, gameId, username, enabled])
+	}, [mode, currentMove, gameId, username, enabled, manualMove?.move])
 
 	return { currentMoveAnalysis, loadingCurrentMoveAnalysis }
 }

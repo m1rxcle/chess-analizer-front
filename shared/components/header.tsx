@@ -2,6 +2,7 @@
 
 import { ChessQueen, ChevronLeft, Menu, X } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { NAV_ITEMS } from "../constants"
 import { cn } from "../lib/utils"
@@ -15,6 +16,8 @@ export const Header = ({ isHomePage = false }: Props) => {
 	const [activeItemId, setActiveItemId] = useState(0)
 
 	const [isOpenBurger, setIsOpenBurger] = useState(false)
+
+	const router = useRouter()
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -84,12 +87,14 @@ export const Header = ({ isHomePage = false }: Props) => {
 							))}
 						</ul>
 					) : (
-						<Link href="/">
-							<Button className="bg-transparent py-4 border border-accent text-accent hover:bg-accent/30 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer text-base md:text-lg lg:text-xl">
-								<ChevronLeft className="size-6" />
-								<span>На главную</span>
-							</Button>
-						</Link>
+						<Button
+							variant="link"
+							onClick={() => router.back()}
+							className="hover:no-underline bg-transparent py-4 border border-accent text-accent hover:bg-accent/30 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer text-sm"
+						>
+							<ChevronLeft className="size-4" />
+							<span className="text-lg">Назад</span>
+						</Button>
 					)}
 				</div>
 			</nav>
@@ -115,12 +120,14 @@ export const Header = ({ isHomePage = false }: Props) => {
 							{isOpenBurger ? <X size={28} /> : <Menu size={28} />}
 						</button>
 					) : (
-						<Link href="/">
-							<Button className="bg-transparent py-4 border border-accent text-accent hover:bg-accent/30 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer text-sm">
-								<ChevronLeft className="size-4" />
-								<span>На главную</span>
-							</Button>
-						</Link>
+						<Button
+							variant="link"
+							onClick={() => router.back()}
+							className="hover:no-underline bg-transparent py-4 border border-accent text-accent hover:bg-accent/30 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer text-sm"
+						>
+							<ChevronLeft className="size-4" />
+							<span className="text-lg">Назад</span>
+						</Button>
 					)}
 				</div>
 
@@ -151,12 +158,14 @@ export const Header = ({ isHomePage = false }: Props) => {
 							))}
 						</ul>
 					) : (
-						<Link href="/">
-							<Button className="bg-transparent py-4 border border-accent text-accent hover:bg-accent/30 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer text-sm">
-								<ChevronLeft className="size-4" />
-								<span>На главную</span>
-							</Button>
-						</Link>
+						<Button
+							variant="link"
+							onClick={() => router.back()}
+							className="hover:no-underline bg-transparent py-4 border border-accent text-accent hover:bg-accent/30 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer text-sm"
+						>
+							<ChevronLeft className="size-4" />
+							<span className="text-lg">Назад</span>
+						</Button>
 					)}
 				</div>
 			</nav>

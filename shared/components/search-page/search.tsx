@@ -2,15 +2,18 @@
 
 import type { TGame } from "@/types/game.type"
 import { Loader2 } from "lucide-react"
+import { useQueryState } from "nuqs"
 import { useState } from "react"
 import { TitleBadge } from "../title-badge"
-import { RecentGames } from "./recent-games"
+import { PlayerGames } from "./player-games"
 import { SearchHeroImage } from "./search-hero-image"
 import { SearchPlayer } from "./search-player"
 
 export const Search = () => {
 	const [gamesList, setGamesList] = useState<TGame[]>([])
 	const [loading, setLoading] = useState(false)
+	const [player] = useQueryState("player", { defaultValue: "" })
+	const [totalGame, setTotalGames] = useState(0)
 
 	return (
 		<section className="flex flex-col lg:justify-center lg:flex-row lg:items-start gap-10 lg:gap-0">
@@ -24,7 +27,7 @@ export const Search = () => {
 						Введите никнейм игрока с Chess.com и получайте доступ ко всем его партиям и статистике.
 					</p>
 				</div>
-				<SearchPlayer setGamesList={setGamesList} setLoading={setLoading} />
+				<SearchPlayer setGamesList={setGamesList} setLoading={setLoading} setTotalGames={setTotalGames} />
 			</div>
 			<div className="w-full lg:w-2/3 flex justify-center items-center pb-20 md:pb-0 ">
 				{loading && (
@@ -37,10 +40,10 @@ export const Search = () => {
 					<div className="w-full mx-10">
 						<div className="mb-4 ">
 							<p className="text-secondary text-lg text-center  lg:text-lg">
-								Всего партий: <span className="font-bold text-accent">{gamesList.length}</span>
+								Всего партий: <span className="font-bold text-accent">{totalGame}</span>
 							</p>
 						</div>
-						<RecentGames gamesList={gamesList.slice(0, 10)} className="w-full" />
+						<PlayerGames isRecentGames gamesList={gamesList} player={player} className="w-full" />
 					</div>
 				)}
 

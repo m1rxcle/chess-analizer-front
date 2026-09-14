@@ -1,7 +1,5 @@
-export default function Games() {
-	return (
-		<section>
-			<h1>Games</h1>
-		</section>
-	)
+import { PlayerGamesList } from "@/shared/components/search-page/player-games-list"
+
+export default function GamesPage() {
+	return <PlayerGamesList />
 }

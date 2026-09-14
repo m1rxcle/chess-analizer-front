@@ -14,13 +14,13 @@ import { timeClassPicture } from "../../utils/time-control-picture"
 
 interface Props {
 	gamesList: TGame[]
+	isRecentGames: boolean
+	player: string
 	className?: string
 }
 
-export const RecentGames: React.FC<Props> = ({ gamesList, className }) => {
+export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player, className }) => {
 	const router = useRouter()
-
-	const player = localStorage.getItem("Player") || ""
 
 	return (
 		<div className={cn("glass-effect rounded-3xl ", className)}>
@@ -110,18 +110,24 @@ export const RecentGames: React.FC<Props> = ({ gamesList, className }) => {
 						)
 					})}
 				</TableBody>
-				<TableFooter className="bg-transparent border-accent ">
-					<TableRow className="hover:bg-accent/10 transition-colors duration-300 ease-in-out cursor-pointer">
-						<TableCell colSpan={4} className="text-center">
-							<Button variant="link" className="cursor-pointer text-accent text-base md:text-lg lg:text-xl">
-								Подробнее
-								<span>
-									<ChevronRight size={16} />
-								</span>
-							</Button>
-						</TableCell>
-					</TableRow>
-				</TableFooter>
+				{isRecentGames && (
+					<TableFooter className="bg-transparent border-accent ">
+						<TableRow className="hover:bg-accent/10 transition-colors duration-300 ease-in-out cursor-pointer">
+							<TableCell colSpan={4} className="text-center">
+								<Button
+									onClick={() => router.push(`/${player}/games`)}
+									variant="link"
+									className="cursor-pointer text-accent text-base md:text-lg lg:text-xl"
+								>
+									Подробнее
+									<span>
+										<ChevronRight size={16} />
+									</span>
+								</Button>
+							</TableCell>
+						</TableRow>
+					</TableFooter>
+				)}
 			</Table>
 		</div>
 	)
