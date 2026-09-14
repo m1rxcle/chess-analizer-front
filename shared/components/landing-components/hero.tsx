@@ -1,10 +1,17 @@
+"use client"
+
+import { useGSAP } from "@gsap/react"
+import { gsap } from "gsap"
 import { Play } from "lucide-react"
 import { Button } from "../../ui/button"
 import { TitleBadge } from "../title-badge"
 import { FindPlayerButton } from "./find-player-button"
 import { HeroImage } from "./hero-image"
-
 export const HeroSection = () => {
+	useGSAP(() => {
+		gsap.from("#hero", { y: 100, opacity: 0, duration: 1, ease: "power2.out" })
+	})
+
 	return (
 		<section id="hero" className="flex flex-col md:justify-center md:flex-row md:items-start gap-20 md:gap-6 min-h-screen scroll-mt-24">
 			<div className="mx-5 space-y-10 md:ml-10 md:mt-10 md:w-1/2 overflow-hidden">
