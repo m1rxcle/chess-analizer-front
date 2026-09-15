@@ -1,12 +1,23 @@
+import { cn } from "../lib/utils"
+
 interface Props {
+	className?: string
 	text: string
 }
 
-export const TitleBadge = ({ text }: Props) => {
+export const TitleBadge = ({ text, className }: Props) => {
 	return (
-		<div className="flex items-center gap-2 bg-foreground w-fit px-4 py-2 rounded-full glass-effect mx-auto text-center lg:mx-0 lg:text-start">
-			<div className="px-1 py-1 rounded-full bg-accent w-0.5 h-0.5 animate-pulse" />
-			<h2 className="text-secondary">{text}</h2>
+		<div className={cn("relative w-fit rounded-full overflow-hidden p-px glass-effect  mx-auto lg:mx-0", className)}>
+			<div
+				style={{ animationDuration: "4s" }}
+				className="absolute inset-0 animate-spin  bg-[conic-gradient(from_0deg,transparent_0%,transparent_60%,var(--accent)_75%,transparent_90%)] blur-sm"
+			/>
+
+			<div className="relative z-10 flex items-center gap-2 rounded-full bg-foreground px-4 py-2">
+				<div className="size-1.5 rounded-full bg-accent animate-pulse" />
+
+				<h2 className="text-secondary">{text}</h2>
+			</div>
 		</div>
 	)
 }
