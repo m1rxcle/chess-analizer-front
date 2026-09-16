@@ -1,3 +1,8 @@
+/**
+ *  Навигационное меню
+ *
+ */
+
 export const NAV_ITEMS: { id: number; title: string; link: string }[] = [
 	{
 		id: 1,

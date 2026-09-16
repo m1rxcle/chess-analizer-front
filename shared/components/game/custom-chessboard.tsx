@@ -1,25 +1,30 @@
 "use client"
 
+import useChessSound from "@/shared/hooks/use-chess-sound"
+import { cn } from "@/shared/lib/utils"
 import { getQualityIcon } from "@/shared/utils/get-quality-icon"
 import type { Quality } from "@/types/analyze-moves.type"
 import type { TPlayer } from "@/types/player.type"
+import type { StatusMove } from "@/types/status-move.enum"
+import { Loader2 } from "lucide-react"
 import React from "react"
 import { Chessboard, type ChessboardOptions, type PieceDropHandlerArgs, type PieceHandlerArgs, type SquareHandlerArgs } from "react-chessboard"
 import { PlayerNameSkeleton } from "../skeletons/player-name-skeleton"
 
 interface Props {
-	currentPlayer?: TPlayer
-	opponent?: TPlayer
-	currentFen?: string
 	chessboardOptions: ChessboardOptions
 	loadingGame: boolean
+	loadingAnalysis: boolean
 	loadingCurrentMoveAnalysis: boolean
+	opponent?: TPlayer
+	currentFen?: string
+	currentPlayer?: TPlayer
 	responseMove?: string
 	quality?: string
 	evaluationMove?: string
 	setPossibleMoves: React.Dispatch<React.SetStateAction<string[]>>
 	getPossibleMoves: (square: string) => string[]
-	makeMove: (sourceSquare: string, targetSquare: string) => boolean
+	makeMove: (sourceSquare: string, targetSquare: string) => StatusMove | false
 }
 
 export const CustomChessboard: React.FC<Props> = ({
@@ -28,6 +33,7 @@ export const CustomChessboard: React.FC<Props> = ({
 	currentFen,
 	chessboardOptions,
 	loadingGame,
+	loadingAnalysis,
 	loadingCurrentMoveAnalysis,
 	responseMove,
 	quality,
@@ -36,27 +42,32 @@ export const CustomChessboard: React.FC<Props> = ({
 	getPossibleMoves,
 	makeMove,
 }) => {
+	const { playSound } = useChessSound()
+
+	const loading = loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis
+
 	const handlePieceDrop = ({ sourceSquare, targetSquare }: PieceDropHandlerArgs) => {
-		if (!targetSquare || loadingCurrentMoveAnalysis) return false
+		if (!targetSquare || loading) return false
 
 		const result = makeMove(sourceSquare, targetSquare)
 
 		if (result) {
+			playSound(result)
 			setPossibleMoves([])
 		}
 
-		return result
+		return !!result
 	}
 
 	const onSquareClick = ({ square }: SquareHandlerArgs) => {
-		if (loadingCurrentMoveAnalysis) return
+		if (loadingCurrentMoveAnalysis || loading) return
 		const moves = getPossibleMoves(square)
 
 		setPossibleMoves(moves)
 	}
 
 	const onPieceDrag = ({ isSparePiece, piece, square }: PieceHandlerArgs) => {
-		if (!square || loadingCurrentMoveAnalysis) return
+		if (!square || loading) return
 
 		const moves = getPossibleMoves(square)
 
@@ -95,11 +106,18 @@ export const CustomChessboard: React.FC<Props> = ({
 						squareRenderer: ({ square, piece, children }) => {
 							const showEvaluation = square === evaluationSquare && getEvaluationIcon
 
+							const squareStyle = chessboardOptions.squareStyles?.[square]
+
 							return (
-								<div className="relative h-full w-full">
+								<div className={cn("relative h-full w-full", loading ? "pointer-events-none opacity-50" : "")} style={squareStyle}>
 									{children}
 
-									{showEvaluation && <img src={getEvaluationIcon} alt="evaluation" className="absolute -right-6 -top-3 z-20 w-14 h-8 " />}
+									{showEvaluation && !loading && <img src={getEvaluationIcon} alt="evaluation" className="absolute -right-6 -top-3 z-20 w-14 h-8 " />}
+									{showEvaluation && loading && (
+										<div className="absolute -right-6 -top-3 z-20 w-14 h-8 flex items-center justify-center">
+											<Loader2 className="animate-spin" />
+										</div>
+									)}
 								</div>
 							)
 						},

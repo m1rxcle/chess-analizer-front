@@ -57,13 +57,13 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 									<div className="flex flex-col text-base md:text-lg lg:text-xl font-bold">
 										<div className="flex items-center gap-2">
 											<div className="w-3 h-3 bg-white " />
-											<span>
+											<span className={player === game.white.username ? "text-accent/90" : ""}>
 												{game.white.username}({game.white.rating})
 											</span>
 										</div>
 										<div className="flex items-center gap-2">
 											<div className="w-3 h-3 bg-gray-500 " />
-											<span>
+											<span className={player === game.black.username ? "text-accent/90" : ""}>
 												{game.black.username}({game.black.rating})
 											</span>
 										</div>

@@ -1,5 +1,11 @@
 import { Quality } from "@/types/analyze-moves.type"
 
+/**
+ * Возвращает путь к иконке в зависимости от качества хода.
+ *
+ * Для хорошего хода отдельная иконка не используется,
+ * поэтому функция возвращает пустую строку.
+ */
 export function getQualityIcon(quality: Quality): string {
 	switch (quality) {
 		case Quality.BEST:

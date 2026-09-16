@@ -1,8 +1,14 @@
 /**
- *  Функция возвращает дату игры
+ * Форматирует timestamp даты игры в локальный формат.
  *
- * @param timestamp
- * @returns
+ * Для десктопа используется сокращённое название месяца:
+ * "05 сент. 2026 г."
+ *
+ * Для мобильных устройств используется более компактный формат:
+ * "05.09.26"
+ *
+ * @param timestamp Unix timestamp в секундах
+ * @param isMobile Использовать компактный формат даты
  */
 
 export function getGameDate(timestamp: string, isMobile: boolean = false): string {

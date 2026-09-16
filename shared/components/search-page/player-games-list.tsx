@@ -84,11 +84,11 @@ export const PlayerGamesList = () => {
 				Всего партий: <span className="font-bold text-accent">{totalGame}</span>
 			</p>
 
-			<PlayerGames player={username} isRecentGames={false} gamesList={gamesList} className="mx-10 mb-5" />
+			<PlayerGames player={username} isRecentGames={false} gamesList={gamesList} className="mx-5 lg:mx-10 mb-5" />
 
 			{hasNextPage && (
 				<div ref={bottomRef} className="mb-20">
-					{true && <Loader2 className="animate-spin size-10 md:size-12 lg:size-18 text-accent text-center mx-auto" />}
+					{loading && <Loader2 className="animate-spin size-10 md:size-12 lg:size-18 text-accent text-center mx-auto" />}
 				</div>
 			)}
 		</section>
