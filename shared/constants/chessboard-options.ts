@@ -1,5 +1,11 @@
 import type { ChessboardOptions } from "react-chessboard"
 
+/**
+ * Общие настройки шахматной доски.
+ *
+ * Используются для единого оформления доски во всех режимах
+ * просмотра партии и анализа.
+ */
 export const CHESSBOARD_OPTIONS: ChessboardOptions = {
 	boardStyle: {
 		borderRadius: "5px",

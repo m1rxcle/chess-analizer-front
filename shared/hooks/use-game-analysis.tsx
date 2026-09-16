@@ -1,6 +1,6 @@
 import type { TAnalyzeMoves } from "@/types/analyze-moves.type"
 import type { TGameMode } from "@/types/game-mode.type"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
 interface Props {
 	mode: TGameMode
@@ -8,9 +8,15 @@ interface Props {
 	gameId: string | undefined
 }
 
-export default function useGameAnalysis({ mode, username, gameId }: Props) {
-	const instanceId = useRef<number | null>(null)
+/**
+ * Загружает и хранит результаты анализа шахматной партии.
+ *
+ * Запрос выполняется только в режиме "analysis".
+ * Полученные результаты содержат оценку каждого хода,
+ * лучший ход Stockfish и качество хода игрока.
+ */
 
+export default function useGameAnalysis({ mode, username, gameId }: Props) {
 	const [analyzeEnd, setAnalyzeEnd] = useState(false)
 
 	const [analysis, setAnalysis] = useState<TAnalyzeMoves[]>()
@@ -23,7 +29,6 @@ export default function useGameAnalysis({ mode, username, gameId }: Props) {
 			setLoadingAnalysis(true)
 			setAnalyzeEnd(false)
 			try {
-				console.trace("🌐 FETCH ANALYSIS START")
 				const response = await fetch(process.env.NEXT_PUBLIC_SERVER_API + `/analysis/${username}/${gameId}`, {
 					method: "GET",
 				})

@@ -110,7 +110,7 @@ export const AnimatedHowItWorks = () => {
 				<div id="how-it-works-item" className="glass-effect rounded-3xl px-8 py-10 w-full">
 					<h1 className="text-2xl font-bold mb-8">Пример анализа</h1>
 					<div className="flex flex-col md:items-start gap-4 lg:flex-row lg:justify-between ">
-						<video className="rounded-lg w-full lg:w-1/2" src="/how-it-works.mp4" muted autoPlay loop />
+						<video className="rounded-lg w-full lg:w-1/2" src="/videos/how-it-works.mp4" muted autoPlay loop />
 						<div className="flex flex-col gap-5">
 							<div className="flex flex-col gap-2 border border-white/20 rounded-lg w-full how-it-works-right">
 								<div className="border-b border-white/20 flex justify-between  p-2 bg-black/40 rounded-md">

@@ -54,13 +54,11 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 	const {
 		currentFen,
 		currentMoveSquares,
-		moveStatus,
 		moves,
 		positions,
 		getPossibleMoves,
 		makeMove,
 		setMoveSquares,
-		setMoveStatus,
 		setMoves,
 		setPositions,
 		firstMove,
@@ -69,11 +67,17 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 		lastMove,
 	} = useChessGame({
 		currentMove,
-		setCurrentMove,
 		loading: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis,
+		setCurrentMove,
 	})
 
-	useControlsKeydown({ previousMove, nextMove, firstMove, lastMove, disabled: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis })
+	useControlsKeydown({
+		previousMove,
+		nextMove,
+		firstMove,
+		lastMove,
+		disabled: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis,
+	})
 
 	useEffect(() => {
 		const loadGame = async () => {
@@ -143,7 +147,7 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 	}
 
 	return (
-		<div className="flex  items-stretch justify-center gap-6 mx-10">
+		<div className="flex flex-col lg:flex-row lg:items-stretch lg:justify-center gap-6 mx-5 lg:mx-10">
 			<CustomChessboard
 				chessboardOptions={chessboardOptions}
 				currentPlayer={currentPlayer}
@@ -151,6 +155,7 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 				currentFen={currentFen}
 				loadingGame={loadingGame}
 				loadingCurrentMoveAnalysis={loadingCurrentMoveAnalysis}
+				loadingAnalysis={loadingAnalysis}
 				responseMove={currentMoveAnalysis?.responseMove}
 				quality={currentMoveAnalysis?.quality}
 				evaluationMove={currentMoveAnalysis?.playerMove}

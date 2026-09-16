@@ -12,51 +12,113 @@ export const AnalysisData: React.FC<Props> = ({ whitePlayer, blackPlayer, analys
 	const playersAnalysis = formatAnalysis(analysis)
 
 	return (
-		<div className="flex flex-col gap-2 w-full">
-			<h2 className="text-2xl font-bold text-center text-accent">Анализ вашей партии</h2>
-			<div className="flex items-center justify-between w-full glass-effect px-4 py-5 rounded-3xl">
-				<div className="flex flex-col gap-2">
-					<h2 className="font-bold text-xl truncate w-40">{whitePlayer}: </h2>
-					<div className="flex flex-col">
-						<p className="font-semibold">
-							Лучшие ходы: <span className="text-accent font-bold text-lg">{playersAnalysis?.white.bestMoves}</span>
-						</p>
-						<p className="font-semibold">
-							Хорошие ходы: <span className="text-accent/80 font-bold text-lg">{playersAnalysis?.white.goodMoves}</span>
-						</p>
-						<p className="font-semibold">
-							Неточные ходы: <span className="text-blue-400 font-bold text-lg">{playersAnalysis?.white.inaccurateMoves}</span>
-						</p>
-						<p className="font-semibold">
-							Ошибки: <span className="text-orange-400 font-bold text-lg">{playersAnalysis?.white.mistakes}</span>
-						</p>
-						<p className="font-semibold">
-							Зевки: <span className="text-red-400 font-bold text-lg">{playersAnalysis?.white.blunders}</span>
-						</p>
+		<>
+			<div className="hidden lg:flex lg:flex-col lg:gap-2 lg:w-full">
+				<h2 className="text-xl lg:text-2xl font-bold text-center text-accent">Анализ вашей партии</h2>
+				<div className="flex items-center justify-between w-full glass-effect px-4 py-5 rounded-3xl">
+					<div className="flex flex-col gap-2">
+						<h2 className="font-bold text-xl truncate w-40">{whitePlayer}: </h2>
+						<div className="flex flex-col">
+							<p className="font-medium lg:font-semibold">
+								Лучшие ходы: <span className="text-accent font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.bestMoves}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Хорошие ходы: <span className="text-accent/80 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.goodMoves}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Неточные ходы:{" "}
+								<span className="text-blue-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.inaccurateMoves}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Ошибки: <span className="text-orange-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.mistakes}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Зевки: <span className="text-red-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.blunders}</span>
+							</p>
+						</div>
 					</div>
-				</div>
 
-				<div className="flex flex-col gap-2">
-					<h2 className="font-bold text-xl truncate w-40 text-secondary">{blackPlayer}: </h2>
-					<div className="flex flex-col">
-						<p className="font-semibold">
-							Лучшие ходы: <span className="text-accent font-bold text-lg">{playersAnalysis?.black.bestMoves}</span>
-						</p>
-						<p className="font-semibold">
-							Хорошие ходы: <span className="text-accent/80 font-bold text-lg">{playersAnalysis?.black.goodMoves}</span>
-						</p>
-						<p className="font-semibold">
-							Неточные ходы: <span className="text-blue-400 font-bold text-lg">{playersAnalysis?.black.inaccurateMoves}</span>
-						</p>
-						<p className="font-semibold">
-							Ошибки: <span className="text-orange-400 font-bold text-lg">{playersAnalysis?.black.mistakes}</span>
-						</p>
-						<p className="font-semibold">
-							Зевки: <span className="text-red-400 font-bold text-lg">{playersAnalysis?.black.blunders}</span>
-						</p>
+					<div className="flex flex-col gap-2">
+						<h2 className="font-bold text-xl truncate w-40 text-secondary">{blackPlayer}: </h2>
+						<div className="flex flex-col">
+							<p className="font-medium lg:font-semibold">
+								Лучшие ходы: <span className="text-accent font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.bestMoves}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Хорошие ходы: <span className="text-accent/80 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.goodMoves}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Неточные ходы:{" "}
+								<span className="text-blue-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.inaccurateMoves}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Ошибки: <span className="text-orange-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.mistakes}</span>
+							</p>
+							<p className="font-medium lg:font-semibold">
+								Зевки: <span className="text-red-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.blunders}</span>
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+			<div className="flex flex-col gap-2 w-full lg:hidden">
+				<h2 className="text-lg lg:text-2xl font-bold text-center text-accent">Анализ вашей партии</h2>
+				<div className="flex items-center justify-between w-full glass-effect px-4 py-5 rounded-3xl">
+					<div className="flex flex-col gap-2">
+						<h2 className="font-bold text-sm lg:text-xl truncate w-40">{whitePlayer}: </h2>
+						<div className="flex flex-col gap-2 lg:gap-0">
+							<div className="flex items-center gap-2">
+								<img src="/icons/best-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-accent font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.bestMoves}</span>
+							</div>
+
+							<div className="flex items-center gap-2">
+								<img src="/icons/incorrect-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-blue-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.inaccurateMoves}</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<img src="/icons/mistake-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-orange-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.mistakes}</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<img src="/icons/blunder-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-red-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.white.blunders}</span>
+							</div>
+						</div>
+					</div>
+
+					<div className="flex flex-col gap-2">
+						<h2 className="font-bold text-sm lg:text-xl truncate w-40 text-secondary">{blackPlayer}: </h2>
+						<div className="flex flex-col gap-2 lg:gap-0">
+							<div className="flex items-center gap-2">
+								<img src="/icons/best-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-accent font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.bestMoves}</span>
+							</div>
+
+							<div className="flex items-center gap-2">
+								<img src="/icons/incorrect-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-blue-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.inaccurateMoves}</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<img src="/icons/mistake-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-orange-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.mistakes}</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<img src="/icons/blunder-move.svg" alt="best move icon" className="w-6 h-6" />
+								{":"}
+								<span className="text-red-400 font-semibold lg:font-bold text-sm lg:text-lg">{playersAnalysis?.black.blunders}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
 	)
 }

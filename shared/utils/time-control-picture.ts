@@ -1,8 +1,10 @@
 /**
- *  Функция возвращает картинку в зависимости от временного контроля
+ * Возвращает путь к иконке в зависимости от типа контроля времени.
  *
- * @param timeControl
- * @returns
+ * Поддерживает основные типы партий Chess.com:
+ * bullet, blitz, rapid и classical.
+ *
+ * Если тип не распознан, используется иконка blitz.
  */
 
 export function timeClassPicture(timeControl: string): string {

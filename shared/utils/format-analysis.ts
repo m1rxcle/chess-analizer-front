@@ -1,6 +1,19 @@
 import { Quality, type TAnalyzeMoves } from "@/types/analyze-moves.type"
 import type { TPlayerAnalysis } from "@/types/player-analysis.type"
 
+/**
+ * Формирует сводную статистику ходов отдельно для белых и чёрных.
+ *
+ * Подсчитывает количество:
+ * - лучших ходов;
+ * - хороших ходов;
+ * - неточностей;
+ * - ошибок;
+ * - грубых ошибок.
+ *
+ * Используется для отображения итоговой статистики анализа партии.
+ */
+
 export function formatAnalysis(analysis: TAnalyzeMoves[] | undefined): { white: TPlayerAnalysis; black: TPlayerAnalysis } | undefined {
 	if (!analysis) return
 
@@ -27,11 +40,6 @@ export function formatAnalysis(analysis: TAnalyzeMoves[] | undefined): { white: 
 
 		if (move.isBestMove) {
 			player.bestMoves++
-		}
-
-		if (move.isBestMove) {
-			player.bestMoves++
-			return
 		}
 
 		switch (move.quality) {

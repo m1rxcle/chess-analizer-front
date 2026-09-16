@@ -46,7 +46,7 @@ export const Search = () => {
 				)}
 
 				{gamesList.length > 0 && !loading && (
-					<div className="w-full mx-10">
+					<div className="w-full mx-5 lg:mx-10">
 						<div className="mb-4 ">
 							<p className="text-secondary text-lg text-center  lg:text-lg">
 								Всего партий: <span className="font-bold text-accent">{totalGame}</span>
