@@ -1,13 +1,17 @@
 "use client"
 
 import { API } from "@/shared/services/api"
+import { getApiErrorMessage } from "@/shared/services/get-api-error-message"
+import { toast } from "@/shared/ui/toast"
 import type { TGame } from "@/types/game.type"
 import { Loader2 } from "lucide-react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { PlayerGames } from "./player-games"
 
 export const PlayerGamesList = () => {
+	const router = useRouter()
+
 	const [gamesList, setGamesList] = useState<TGame[]>([])
 	const [totalGame, setTotalGames] = useState(0)
 
@@ -41,6 +45,11 @@ export const PlayerGamesList = () => {
 			} catch (error) {
 				setGamesList([])
 				setTotalGames(0)
+				toast.add({
+					type: "error",
+					description: getApiErrorMessage(error),
+				})
+				router.back()
 			} finally {
 				setLoading(false)
 			}
