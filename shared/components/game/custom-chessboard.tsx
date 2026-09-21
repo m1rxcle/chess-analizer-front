@@ -66,7 +66,7 @@ export const CustomChessboard: React.FC<Props> = ({
 		setPossibleMoves(moves)
 	}
 
-	const onPieceDrag = ({ isSparePiece, piece, square }: PieceHandlerArgs) => {
+	const onPieceDrag = ({ square }: PieceHandlerArgs) => {
 		if (!square || loading) return
 
 		const moves = getPossibleMoves(square)
@@ -104,15 +104,17 @@ export const CustomChessboard: React.FC<Props> = ({
 						...chessboardOptions,
 						arrows,
 						squareRenderer: ({ square, piece, children }) => {
-							const showEvaluation = square === evaluationSquare && getEvaluationIcon
+							const isEvaluationSquare = square === evaluationSquare
+
+							const showEvaluation = isEvaluationSquare && getEvaluationIcon
 
 							const squareStyle = chessboardOptions.squareStyles?.[square]
 
 							return (
-								<div className={cn("relative h-full w-full", loading ? "pointer-events-none opacity-50" : "")} style={squareStyle}>
-									{children}
+								<div className={cn("relative h-full w-full", loading ? "pointer-events-none " : "")} style={squareStyle}>
+									<div className={loading && piece !== null && showEvaluation ? "opacity-50" : ""}>{children}</div>
 
-									{showEvaluation && !loading && <img src={getEvaluationIcon} alt="evaluation" className="absolute -right-6 -top-3 z-20 w-14 h-8 " />}
+									{showEvaluation && !loading && <img src={getEvaluationIcon} alt="evaluation" className="absolute -right-4 -top-2 z-20 w-14 h-8 " />}
 									{showEvaluation && loading && (
 										<div className="absolute -right-6 -top-3 z-20 w-14 h-8 flex items-center justify-center">
 											<Loader2 className="animate-spin" />

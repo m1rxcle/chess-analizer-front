@@ -1,13 +1,17 @@
 "use client"
 
+import { API } from "@/shared/services/api"
+import { getApiErrorMessage } from "@/shared/services/get-api-error-message"
+import { toast } from "@/shared/ui/toast"
 import type { TGame } from "@/types/game.type"
-import type { TPaginationGamesResponse } from "@/types/pagination-games-response.type"
 import { Loader2 } from "lucide-react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { PlayerGames } from "./player-games"
 
 export const PlayerGamesList = () => {
+	const router = useRouter()
+
 	const [gamesList, setGamesList] = useState<TGame[]>([])
 	const [totalGame, setTotalGames] = useState(0)
 
@@ -27,16 +31,11 @@ export const PlayerGamesList = () => {
 			try {
 				setLoading(true)
 
-				const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API}/search/${username}?page=${page}&limit=15`, {
-					method: "GET",
+				const data = await API.games.getPlayerGames({
+					player: username,
+					page,
+					limit: 15,
 				})
-
-				if (!res.ok) {
-					setGamesList([])
-					throw new Error("Player not found")
-				}
-
-				const data: TPaginationGamesResponse = await res.json()
 
 				const games: TGame[] = data.games
 
@@ -44,16 +43,20 @@ export const PlayerGamesList = () => {
 				setTotalGames(data.totalGames)
 				setHasNextPage(data.hasNextPage)
 			} catch (error) {
-				if (error instanceof Error && error.message) {
-					console.log(error.message)
-				}
+				setGamesList([])
+				setTotalGames(0)
+				toast.add({
+					type: "error",
+					description: getApiErrorMessage(error),
+				})
+				router.back()
 			} finally {
 				setLoading(false)
 			}
 		}
 
 		onLoad()
-	}, [username, page])
+	}, [username, page, router])
 
 	useEffect(() => {
 		const element = bottomRef.current

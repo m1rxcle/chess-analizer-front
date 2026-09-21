@@ -5,6 +5,9 @@ import useChessGame from "@/shared/hooks/use-chess-game"
 import useControlsKeydown from "@/shared/hooks/use-controls-keydown"
 import useGameAnalysis from "@/shared/hooks/use-game-analysis"
 import { useMoveAnalysis } from "@/shared/hooks/use-move-analysis"
+import { API } from "@/shared/services/api"
+import { getApiErrorMessage } from "@/shared/services/get-api-error-message"
+import { toast } from "@/shared/ui/toast"
 import { parseGamePgn } from "@/shared/utils/parse-game-pgn"
 import type { TGameMode } from "@/types/game-mode.type"
 import type { TGame } from "@/types/game.type"
@@ -12,9 +15,10 @@ import type { TPlayer } from "@/types/player.type"
 import { useParams, useRouter } from "next/navigation"
 import { parseAsInteger, useQueryState } from "nuqs"
 import { useEffect, useState } from "react"
-import { type ChessboardOptions } from "react-chessboard"
+import type { ChessboardOptions } from "react-chessboard"
 import { CustomChessboard } from "./custom-chessboard"
 import { GameDetails } from "./game-details"
+
 interface Props {
 	mode: TGameMode
 }
@@ -24,21 +28,17 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 
 	const { username, gameId } = useParams<{ username: string; gameId: string }>()
 
-	const [game, setGame] = useState<TGame | undefined>()
-
 	const [currentMove, setCurrentMove] = useQueryState(
 		"move",
 		parseAsInteger.withDefault(0).withOptions({
 			shallow: true,
 		}),
 	)
-
+	const [game, setGame] = useState<TGame | undefined>()
 	const [currentPlayer, setCurrentPlayer] = useState<TPlayer | undefined>()
 	const [opponent, setOpponent] = useState<TPlayer | undefined>()
 	const [orientation, setOrientation] = useState<"white" | "black" | undefined>()
-
 	const [possibleMoves, setPossibleMoves] = useState<string[]>([])
-
 	const [loadingGame, setLoadingGame] = useState(false)
 
 	const { analysis, loadingAnalysis, analyzeEnd } = useGameAnalysis({ mode, username, gameId })
@@ -72,29 +72,26 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 	})
 
 	useControlsKeydown({
+		disabled: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis,
 		previousMove,
 		nextMove,
 		firstMove,
 		lastMove,
-		disabled: loadingGame || loadingAnalysis || loadingCurrentMoveAnalysis,
 	})
 
 	useEffect(() => {
 		const loadGame = async () => {
 			setLoadingGame(true)
 			try {
-				const response = await fetch(process.env.NEXT_PUBLIC_SERVER_API + `/games/${username}/${gameId}`)
-				if (!response.ok) {
-					throw new Error("Failed to fetch game data")
-				}
+				const gameData = await API.game.getPlayerGame({ username, gameId })
 
-				const gameData: TGame = await response.json()
+				const isPlayerWhite = gameData.white.username === username
 
 				setGame(gameData)
 
-				setOrientation(gameData.white.username === username ? "white" : "black")
-				setCurrentPlayer(gameData.white.username === username ? gameData.white : gameData.black)
-				setOpponent(gameData.white.username !== username ? gameData.white : gameData.black)
+				setOrientation(isPlayerWhite ? "white" : "black")
+				setCurrentPlayer(isPlayerWhite ? gameData.white : gameData.black)
+				setOpponent(!isPlayerWhite ? gameData.white : gameData.black)
 
 				const { gameMoveSquares, gameMoves, gamePositions } = parseGamePgn({ gameData })
 
@@ -102,16 +99,16 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 				setMoves(gameMoves)
 				setMoveSquares(gameMoveSquares)
 			} catch (error) {
-				console.log("Error fetching game data:", error)
-				if (error instanceof Error) {
-					console.error("Error fetching game data:", error.message)
-				}
+				toast.add({
+					type: "error",
+					description: getApiErrorMessage(error),
+				})
 			} finally {
 				setLoadingGame(false)
 			}
 		}
 		loadGame()
-	}, [gameId, username])
+	}, [gameId, username, setPositions, setMoves, setMoveSquares])
 
 	const chessboardOptions: ChessboardOptions = {
 		...CHESSBOARD_OPTIONS,

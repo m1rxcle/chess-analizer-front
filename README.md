@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chess Analyzer — Frontend
 
-## Getting Started
+Веб-приложение для поиска игроков Chess.com, просмотра партий и анализа ходов с помощью Stockfish. Лендинг, поиск и просмотрщик партий на **Next.js** (App Router).
 
-First, run the development server:
+## Возможности
+
+- Поиск игрока по нику Chess.com и список его партий с пагинацией
+- Просмотр партии на интерактивной доске (`react-chessboard`, `chess.js`)
+- Полный анализ партии и пошаговый разбор отдельных ходов через backend API
+- Лендинг с анимациями (GSAP) и описанием продукта
+
+## Стек
+
+| Категория | Технологии |
+|-----------|------------|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router), React 19 |
+| Язык | TypeScript |
+| Стили | Tailwind CSS 4 |
+| UI | shadcn/ui, Base UI, Lucide |
+| Шахматы | chess.js, react-chessboard |
+| Анимации | GSAP, `@gsap/react` |
+| URL state | nuqs |
+| Пакетный менеджер | [Bun](https://bun.sh/) (`bun.lock`) |
+| Git hooks | Husky (pre-commit: `bun run lint`) |
+
+## Требования
+
+- [Bun](https://bun.sh/) (рекомендуется — в репозитории есть `bun.lock`) или Node.js 20+ с npm/yarn/pnpm
+- Запущенный **backend** с REST API (см. переменную окружения ниже)
+
+## Быстрый старт
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd chess-analizer-frontend
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Создайте файл `.env.local` в корне фронтенда:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Укажите базовый URL вашего API **без** завершающего слэша. Клиент обращается к эндпоинтам вида:
 
-## Learn More
+- `GET /search/{username}?page=&limit=`
+- `GET /games/{username}/{gameId}`
+- `GET /analysis/{username}/{gameId}`
+- `GET /{username}/{gameId}/analyze?move=`
 
-To learn more about Next.js, take a look at the following resources:
+Запуск в режиме разработки:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+bun run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Откройте [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel
+## Скрипты
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Команда | Описание |
+|---------|----------|
+| `bun run dev` | Dev-сервер Next.js |
+| `bun run build` | Production-сборка |
+| `bun run start` | Запуск собранного приложения |
+| `bun run lint` | ESLint (Next.js config) |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Маршруты
+
+| Путь | Назначение |
+|------|------------|
+| `/` | Лендинг |
+| `/search` | Поиск игрока |
+| `/{username}/games` | Список партий игрока |
+| `/{username}/game/{gameId}` | Просмотр партии |
+| `/{username}/game/{gameId}/analysis` | Партия с панелью анализа |
+
+## Структура проекта
+
+```
+app/                    # App Router: layouts и страницы
+  (root)/               # Основные маршруты с общим layout
+shared/
+  components/           # UI: лендинг, поиск, игра, анализ
+  hooks/                # Анализ, управление партией, звук, клавиши
+  ui/                   # shadcn-компоненты (button, input, table, …)
+  utils/                # PGN, форматирование анализа, time control
+  constants/
+  lib/
+public/                 # Статика, иконки, звуки
+```
+
+Импорты через алиас `@/*` → корень проекта (`tsconfig.json`).
+
+## Cursor Skills
+
+В проекте: `.cursor/skills/base/` — инструкции для агента Cursor. Файл должен называться **`SKILL.md`** (регистр важен), с YAML frontmatter `name` и `description`.
+
+## Лицензия
+
+Приватный проект (`"private": true` в `package.json`).

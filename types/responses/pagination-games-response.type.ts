@@ -1,4 +1,4 @@
-import type { TGame } from "./game.type"
+import type { TGame } from "../game.type"
 
 export type TPaginationGamesResponse = {
 	games: TGame[]

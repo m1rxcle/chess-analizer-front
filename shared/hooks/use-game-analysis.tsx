@@ -1,6 +1,9 @@
 import type { TAnalyzeMoves } from "@/types/analyze-moves.type"
 import type { TGameMode } from "@/types/game-mode.type"
 import { useEffect, useState } from "react"
+import { API } from "../services/api"
+import { getApiErrorMessage } from "../services/get-api-error-message"
+import { toast } from "../ui/toast"
 
 interface Props {
 	mode: TGameMode
@@ -25,32 +28,23 @@ export default function useGameAnalysis({ mode, username, gameId }: Props) {
 
 	useEffect(() => {
 		if (mode !== "analysis") return
+		if (!username || !gameId) return
+
 		const handleShowAnalysis = async () => {
 			setLoadingAnalysis(true)
 			setAnalyzeEnd(false)
 			try {
-				const response = await fetch(process.env.NEXT_PUBLIC_SERVER_API + `/analysis/${username}/${gameId}`, {
-					method: "GET",
-				})
+				const data = await API.analysis.gameAnalysis({ username, gameId })
 
-				if (!response.ok) {
-					throw new Error("Failed to fetch game data")
-				}
-
-				const analysis = await response.json()
-
-				console.log("✅ ANALYSIS JSON RECEIVED")
-
-				setAnalysis(analysis)
+				setAnalysis(data)
 			} catch (error) {
-				if (error instanceof Error) {
-					console.error("Error fetching game data:", error.message)
-				}
+				toast.add({
+					type: "error",
+					description: getApiErrorMessage(error),
+				})
 			} finally {
 				setLoadingAnalysis(false)
 				setAnalyzeEnd(true)
-
-				console.log("🏁 FETCH ANALYSIS FINISH")
 			}
 		}
 		handleShowAnalysis()

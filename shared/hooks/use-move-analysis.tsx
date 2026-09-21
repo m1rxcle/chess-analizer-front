@@ -1,6 +1,9 @@
 import type { TGameMode } from "@/types/game-mode.type"
-import type { TStockfishAnalysisResponse } from "@/types/stockfish-analysis-response.type"
+import type { TStockfishAnalysisResponse } from "@/types/responses/stockfish-move-analysis-response.type"
 import { useEffect, useRef, useState } from "react"
+import { API } from "../services/api"
+import { getApiErrorMessage } from "../services/get-api-error-message"
+import { toast } from "../ui/toast"
 
 interface Props {
 	currentMove: number
@@ -31,7 +34,7 @@ export function useMoveAnalysis({ currentMove, mode, gameId, username, manualMov
 	const analyzeMoveRef = useRef<string | null>(null)
 
 	useEffect(() => {
-		if (mode !== "analysis" || !enabled || currentMove === 0) return
+		if (mode !== "analysis" || !enabled /* || currentMove === 0 */) return
 
 		const moveKey = manualMove?.move ? `manual:${currentMove}:${manualMove.move}` : `game:${currentMove}`
 
@@ -43,21 +46,14 @@ export function useMoveAnalysis({ currentMove, mode, gameId, username, manualMov
 			try {
 				const move = manualMove?.move ?? currentMove
 
-				const response = await fetch(process.env.NEXT_PUBLIC_SERVER_API + `/${username}/${gameId}/analyze?move=${move}`, {
-					method: "GET",
-				})
+				const data = await API.analysis.moveAnalysis({ username, gameId, move })
 
-				if (!response.ok) {
-					throw new Error("Failed to fetch game data")
-				}
-
-				const moveAnalysis: TStockfishAnalysisResponse = await response.json()
-
-				setCurrentMoveAnalysis(moveAnalysis)
+				setCurrentMoveAnalysis(data)
 			} catch (error) {
-				if (error instanceof Error) {
-					console.error("Error fetching game data:", error.message)
-				}
+				toast.add({
+					type: "error",
+					description: getApiErrorMessage(error),
+				})
 			} finally {
 				setLoadingCurrentMoveAnalysis(false)
 			}

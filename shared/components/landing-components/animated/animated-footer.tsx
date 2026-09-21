@@ -38,7 +38,7 @@ export const AnimatedFooter = () => {
 			className="relative  mt-30 flex flex-col justify-between py-10 lg:py-0 lg:flex-row items-center h-100 lg:h-60 lg:justify-end gap-10 glass-effect mx-5 md:mx-10 rounded-3xl px-8 mb-20"
 		>
 			<div className="hidden lg:block absolute -top-34 left-1/2 rotate-.5 select-none pointer-events-none  z-10">
-				<Image className="footer-img" loading="lazy" src="/footer-pic1.png" alt="footer-pic" width={500} height={500} />
+				<Image className="footer-img" loading="lazy" src="/images/footer-pic.png" alt="footer-pic" width={500} height={500} />
 			</div>
 
 			<div className="space-y-4 relative z-20  text-center md:text-left lg:mr-auto max-w-2xl">
@@ -51,7 +51,7 @@ export const AnimatedFooter = () => {
 					className="footer-img"
 					loading="lazy"
 					sizes="(max-width: 768px) 100vw, 50vw"
-					src="/footer-pic1.png"
+					src="/images/footer-pic.png"
 					alt="footer-pic"
 					width={200}
 					height={200}
