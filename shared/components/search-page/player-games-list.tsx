@@ -56,7 +56,7 @@ export const PlayerGamesList = () => {
 		}
 
 		onLoad()
-	}, [username, page])
+	}, [username, page, router])
 
 	useEffect(() => {
 		const element = bottomRef.current
