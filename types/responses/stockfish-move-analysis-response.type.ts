@@ -1,4 +1,4 @@
-export type TStockfishAnalysisResponse = {
+export type TStockfishMoveAnalysisResponse = {
 	bestMove: string
 	depthAfter: number
 	depthBefore: number

@@ -1,10 +1,11 @@
 "use client"
 
+import { API } from "@/shared/services/api"
+import { getApiErrorMessage } from "@/shared/services/get-api-error-message"
 import type { TGame } from "@/types/game.type"
-import type { TPaginationGamesResponse } from "@/types/pagination-games-response.type"
 import { Search } from "lucide-react"
 import { useQueryState } from "nuqs"
-import React, { useState } from "react"
+import { useState } from "react"
 import { cn } from "../../lib/utils"
 import { Button } from "../../ui/button"
 import { Input } from "../../ui/input"
@@ -32,28 +33,19 @@ export const SearchPlayer: React.FC<Props> = ({ setLoading, setTotalGames, setGa
 			setErrorMessage("")
 			setLoading(true)
 
-			const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API}/search/${value}?limit=10`, {
-				method: "GET",
-			})
+			const data = await API.games.getPlayerGames({ player: value })
 
-			if (!res.ok) {
-				setErrorMessage("Игрок не найден")
-				setGamesList([])
-				throw new Error("Player not found")
-			}
-
-			const data: TPaginationGamesResponse = await res.json()
-
-			const games: TGame[] = data.games
+			const games = data.games
 
 			setPlayer(value)
 
 			setTotalGames(data.totalGames)
 			setGamesList(games)
 		} catch (error) {
-			if (error instanceof Error && error.message) {
-				console.log(error.message)
-			}
+			setGamesList([])
+			setTotalGames(0)
+
+			setErrorMessage(getApiErrorMessage(error))
 		} finally {
 			setLoading(false)
 		}
