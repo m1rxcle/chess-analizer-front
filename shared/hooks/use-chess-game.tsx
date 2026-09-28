@@ -38,6 +38,9 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 	// Координаты ручного хода пользователя для его подсветки на доске.
 	const [customMoveSquares, setCustomMoveSquares] = useState<{ from: string; to: string } | null>(null)
 
+	// Состояние какая  клетка находится под шахом
+	const [checkSquare, setCheckSquare] = useState<string | null>(null)
+
 	// Если пользователь сделал ручной ход, показываем его позицию.
 	// Иначе показываем позицию из истории партии.
 	const currentFen = customFen ?? positions[currentMove]
@@ -56,7 +59,10 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 	const getMoveStatus = useCallback(
 		(moveIndex: number) => {
 			if (moveIndex <= 0 || !positions[moveIndex - 1] || !moveSquares[moveIndex - 1]) {
-				return StatusMove.MOVE
+				return {
+					status: StatusMove.MOVE,
+					checkSquare: null,
+				}
 			}
 
 			const chess = new Chess(positions[moveIndex - 1])
@@ -72,7 +78,10 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 
 				return getStatusMove(chess, move)
 			} catch (error) {
-				return StatusMove.MOVE
+				return {
+					status: StatusMove.MOVE,
+					checkSquare: null,
+				}
 			}
 		},
 		[positions, moveSquares],
@@ -83,6 +92,7 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 		setCustomFen(null)
 		setCurrentMove(0)
 		setCustomMoveSquares(null)
+		setCheckSquare(null)
 	}, [setCurrentMove, loading])
 
 	const previousMove = useCallback(() => {
@@ -96,9 +106,11 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 		setCurrentMove(prev)
 		setCustomMoveSquares(null)
 
-		const status = getMoveStatus(prev)
+		const moveResult = getMoveStatus(prev)
 
-		return status
+		setCheckSquare(moveResult.checkSquare)
+
+		return moveResult
 	}, [setCurrentMove, loading, currentMove, getMoveStatus])
 	const nextMove = useCallback(() => {
 		if (loading) return null
@@ -111,17 +123,24 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 		setCurrentMove(next)
 		setCustomMoveSquares(null)
 
-		const status = getMoveStatus(next)
+		const moveResult = getMoveStatus(next)
 
-		return status
+		setCheckSquare(moveResult.checkSquare)
+
+		return moveResult
 	}, [positions.length, setCurrentMove, loading, currentMove, getMoveStatus])
 
 	const lastMove = useCallback(() => {
 		if (loading) return
+
+		const lastMoveIndex = positions.length - 1
+		const moveResult = getMoveStatus(lastMoveIndex)
+
 		setCustomFen(null)
-		setCurrentMove(positions.length - 1)
+		setCurrentMove(lastMoveIndex)
 		setCustomMoveSquares(null)
-	}, [positions.length, setCurrentMove, loading])
+		setCheckSquare(moveResult.checkSquare)
+	}, [positions.length, setCurrentMove, loading, getMoveStatus])
 
 	/**
 	 * Выполняет ручной ход пользователя на текущей позиции доски.
@@ -149,14 +168,16 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 
 				if (!move) return false
 
-				const newStatus = getStatusMove(chess, move)
+				const moveResult = getStatusMove(chess, move)
+
+				setCheckSquare(moveResult.checkSquare)
 
 				const fenAfter = chess.fen()
 
 				setCustomFen(fenAfter)
 				setCustomMoveSquares({ from: sourceSquare, to: targetSquare })
 
-				return newStatus
+				return moveResult
 			} catch {
 				return false
 			}
@@ -187,6 +208,7 @@ export default function useChessGame({ currentMove, loading, setCurrentMove }: P
 
 	return {
 		moves,
+		checkSquare,
 		currentMove,
 		positions,
 		currentFen,

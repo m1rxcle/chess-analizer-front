@@ -1,5 +1,5 @@
 import type { TGameMode } from "@/types/game-mode.type"
-import type { TStockfishAnalysisResponse } from "@/types/responses/stockfish-move-analysis-response.type"
+import { TStockfishMoveAnalysisResponse } from "@/types/responses/stockfish-move-analysis-response.type"
 import { useEffect, useRef, useState } from "react"
 import { API } from "../services/api"
 import { getApiErrorMessage } from "../services/get-api-error-message"
@@ -29,12 +29,12 @@ interface Props {
  */
 
 export function useMoveAnalysis({ currentMove, mode, gameId, username, manualMove, enabled }: Props) {
-	const [currentMoveAnalysis, setCurrentMoveAnalysis] = useState<TStockfishAnalysisResponse | null>(null)
+	const [currentMoveAnalysis, setCurrentMoveAnalysis] = useState<TStockfishMoveAnalysisResponse | null>(null)
 	const [loadingCurrentMoveAnalysis, setLoadingCurrentMoveAnalysis] = useState(false)
 	const analyzeMoveRef = useRef<string | null>(null)
 
 	useEffect(() => {
-		if (mode !== "analysis" || !enabled /* || currentMove === 0 */) return
+		if (mode !== "analysis" || !enabled || currentMove === 0) return
 
 		const moveKey = manualMove?.move ? `manual:${currentMove}:${manualMove.move}` : `game:${currentMove}`
 

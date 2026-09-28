@@ -1,7 +1,7 @@
 import { cn } from "@/shared/lib/utils"
 import { convertToPairMove } from "@/shared/utils/convert-pair-moves"
+import { MoveStatus } from "@/shared/utils/get-status-move"
 import type { TAnalyzeMoves } from "@/types/analyze-moves.type"
-import type { StatusMove } from "@/types/status-move.enum"
 import React from "react"
 import { AnalysisData } from "../analysis/analysis-data"
 import { LoadingGameSkeleton } from "../skeletons/loading-game-skeleton"
@@ -22,8 +22,8 @@ interface Props {
 	handleShowAnalysis: () => void
 	setCurrentMove: (move: number) => void
 	firstMove: () => void
-	previousMove: () => StatusMove | null
-	nextMove: () => StatusMove | null
+	previousMove: () => MoveStatus | null
+	nextMove: () => MoveStatus | null
 	lastMove: () => void
 }
 

@@ -3,9 +3,9 @@
 import useChessSound from "@/shared/hooks/use-chess-sound"
 import { cn } from "@/shared/lib/utils"
 import { getQualityIcon } from "@/shared/utils/get-quality-icon"
+import { MoveStatus } from "@/shared/utils/get-status-move"
 import type { Quality } from "@/types/analyze-moves.type"
 import type { TPlayer } from "@/types/player.type"
-import type { StatusMove } from "@/types/status-move.enum"
 import { Loader2 } from "lucide-react"
 import React from "react"
 import { Chessboard, type ChessboardOptions, type PieceDropHandlerArgs, type PieceHandlerArgs, type SquareHandlerArgs } from "react-chessboard"
@@ -24,7 +24,7 @@ interface Props {
 	evaluationMove?: string
 	setPossibleMoves: React.Dispatch<React.SetStateAction<string[]>>
 	getPossibleMoves: (square: string) => string[]
-	makeMove: (sourceSquare: string, targetSquare: string) => StatusMove | false
+	makeMove: (sourceSquare: string, targetSquare: string) => MoveStatus | false
 }
 
 export const CustomChessboard: React.FC<Props> = ({
@@ -52,7 +52,7 @@ export const CustomChessboard: React.FC<Props> = ({
 		const result = makeMove(sourceSquare, targetSquare)
 
 		if (result) {
-			playSound(result)
+			playSound(result.status)
 			setPossibleMoves([])
 		}
 

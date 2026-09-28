@@ -11,18 +11,52 @@ import type { Chess, Move } from "chess.js"
  * чтобы корректно определить шах или мат.
  */
 
-export function getStatusMove(chess: Chess, move: Move): StatusMove {
+export interface MoveStatus {
+	status: StatusMove
+	checkSquare: string | null
+}
+
+export function getStatusMove(chess: Chess, move: Move): MoveStatus {
 	if (chess.isCheckmate()) {
-		return StatusMove.CHECKMATE
+		return {
+			status: StatusMove.CHECKMATE,
+			checkSquare: getKingSquare(chess),
+		}
 	}
 
 	if (chess.isCheck()) {
-		return StatusMove.CHECK
+		return {
+			status: StatusMove.CHECK,
+			checkSquare: getKingSquare(chess),
+		}
 	}
 
 	if (move.isCapture() || move.isEnPassant()) {
-		return StatusMove.CAPTURE
+		return {
+			status: StatusMove.CAPTURE,
+			checkSquare: null,
+		}
 	}
 
-	return StatusMove.MOVE
+	return {
+		status: StatusMove.MOVE,
+		checkSquare: null,
+	}
+}
+
+function getKingSquare(chess: Chess): string | null {
+	const kingColor = chess.turn()
+	const board = chess.board()
+
+	for (let rank = 0; rank < board.length; rank++) {
+		for (let file = 0; file < board[rank].length; file++) {
+			const piece = board[rank][file]
+
+			if (piece?.type === "k" && piece.color === kingColor) {
+				return `${String.fromCharCode(97 + file)}${8 - rank}`
+			}
+		}
+	}
+
+	return null
 }

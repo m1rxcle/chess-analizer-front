@@ -55,6 +55,7 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 		currentFen,
 		currentMoveSquares,
 		moves,
+		checkSquare,
 		positions,
 		getPossibleMoves,
 		makeMove,
@@ -133,6 +134,14 @@ export const GameViewer: React.FC<Props> = ({ mode }) => {
 					},
 				]),
 			),
+			...(checkSquare
+				? {
+						[checkSquare]: {
+							backgroundColor: "rgba(255, 0, 0, 0.5)",
+							boxShadow: "inset 0 0 20px rgba(255, 0, 0, 0.6)",
+						},
+					}
+				: {}),
 		},
 		boardOrientation: orientation,
 	}
