@@ -1,12 +1,12 @@
-import type { StatusMove } from "@/types/status-move.enum"
 import { useEffect } from "react"
+import { MoveStatus } from "../utils/get-status-move"
 import useChessSound from "./use-chess-sound"
 
 interface Props {
 	disabled: boolean
 
-	previousMove: () => StatusMove | null
-	nextMove: () => StatusMove | null
+	previousMove: () => MoveStatus | null
+	nextMove: () => MoveStatus | null
 	firstMove: () => void
 	lastMove: () => void
 }
@@ -29,11 +29,11 @@ export default function useControlsKeydown({ disabled, previousMove, nextMove, f
 
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "ArrowLeft") {
-				const status = previousMove()
-				if (status) playSound(status)
+				const result = previousMove()
+				if (result && result !== null) playSound(result.status)
 			} else if (event.key === "ArrowRight") {
-				const status = nextMove()
-				if (status) playSound(status)
+				const result = nextMove()
+				if (result && result !== null) playSound(result.status)
 			} else if (event.key === "ArrowUp") {
 				firstMove()
 			} else if (event.key === "ArrowDown") {

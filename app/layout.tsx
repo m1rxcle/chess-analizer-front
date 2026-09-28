@@ -18,9 +18,9 @@ export default function AppLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="ru" className={`${nunito.className} h-full antialiased `}>
+		<html data-scroll-behavior="smooth" lang="ru" className={`${nunito.className} h-full antialiased `}>
 			<Provider>
-				<body className="min-h-full flex flex-col background text-primary">{children}</body>
+				<body className="min-h-screen flex flex-col background text-primary">{children}</body>
 			</Provider>
 		</html>
 	)

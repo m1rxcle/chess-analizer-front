@@ -47,30 +47,37 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 								key={game.uuid}
 								className="cursor-pointer border-accent hover:bg-accent/10 transition-colors duration-300 ease-in-out"
 							>
-								<TableCell>
+								<TableCell className="w-[100px]">
 									<div className="flex flex-col items-center gap-1">
 										<Image src={timeClassPicture(game.time_class)} alt="clock" width={20} height={20} className="w-4 h-4 lg:w-6 lg:h-6 " />
 										<span className="text-sm md:text-base lg:text-lg">{convertTimeControl(game.time_control)}</span>
 									</div>
 								</TableCell>
-								<TableCell>
-									<div className="flex flex-col text-base md:text-lg lg:text-xl font-bold">
-										<div className="flex items-center gap-2">
-											<div className="w-3 h-3 bg-white " />
-											<span className={player === game.white.username ? "text-accent/90" : ""}>
-												{game.white.username}({game.white.rating})
-											</span>
+								<TableCell className="w-[200px] max-w-[200px]">
+									<div className="flex min-w-0  flex-col text-base md:text-lg lg:text-xl font-bold">
+										<div className="flex min-w-0 items-center gap-2">
+											<div className="h-3 w-3 shrink-0 bg-white" />
+
+											<div className="flex min-w-0 flex-1">
+												<span className={`min-w-0 truncate ${player === game.white.username ? "text-accent/90" : ""}`}>{game.white.username}</span>
+
+												<span className="shrink-0">({game.white.rating})</span>
+											</div>
 										</div>
-										<div className="flex items-center gap-2">
-											<div className="w-3 h-3 bg-gray-500 " />
-											<span className={player === game.black.username ? "text-accent/90" : ""}>
-												{game.black.username}({game.black.rating})
-											</span>
+
+										<div className="flex min-w-0 items-center gap-2">
+											<div className="h-3 w-3 shrink-0 bg-gray-500" />
+
+											<div className="flex min-w-0 flex-1">
+												<span className={`min-w-0 truncate ${player === game.black.username ? "text-accent/90" : ""}`}>{game.black.username}</span>
+
+												<span className="shrink-0">({game.black.rating})</span>
+											</div>
 										</div>
 									</div>
 								</TableCell>
 
-								<TableCell>
+								<TableCell className="w-[50px]">
 									<div className="hidden lg:flex items-center gap-4">
 										<div className="hidden lg:flex flex-col text-base md:text-lg lg:text-xl font-bold">
 											<span>{game.white.result === "win" ? "1" : "0"}</span>
@@ -102,7 +109,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 										</div>
 									</div>
 								</TableCell>
-								<TableCell>
+								<TableCell className="w-[100px]">
 									<span className="hidden md:block text-base md:text-lg lg:text-xl font-bold">{getGameDate(game.end_time, false)}</span>
 									<span className="block md:hidden text-base md:text-lg lg:text-xl font-bold">{getGameDate(game.end_time, true)}</span>
 								</TableCell>
