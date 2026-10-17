@@ -16,7 +16,7 @@ export const TitleBadge = ({ text, className }: Props) => {
 			<div className="relative z-10 flex items-center gap-2 rounded-full bg-foreground px-4 py-2">
 				<div className="size-1.5 rounded-full bg-accent animate-pulse" />
 
-				<h2 className="text-secondary">{text}</h2>
+				<h2 className="text-secondary text-xs lg:text-base">{text}</h2>
 			</div>
 		</div>
 	)

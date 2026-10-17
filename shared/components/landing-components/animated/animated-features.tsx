@@ -38,9 +38,9 @@ export const AnimatedFeatures = () => {
 					<Gamepad2 className="text-accent size-10" />
 					<div className="flex flex-col justify-between gap-5">
 						<Infinity className="size-10" />
-						<div className="text-secondary text-md">
+						<div className="text-secondary text-sm md:text-md">
 							<p>Бесплатный анализ</p>
-							<span className="text-sm">Сколько угодно партий</span>
+							<span className="text-xs md:text-sm">Сколько угодно партий</span>
 						</div>
 					</div>
 				</div>
@@ -49,10 +49,10 @@ export const AnimatedFeatures = () => {
 				<div className="flex items-start gap-2 about-item">
 					<ChartNoAxesCombined className="text-accent size-10" />
 					<div className="flex flex-col justify-between gap-5">
-						<h1 className="text-2xl font-bold">Stockfish 16</h1>
-						<div className="text-secondary text-md">
+						<h1 className="text-xl md:text-2xl font-bold">Stockfish 16</h1>
+						<div className="text-secondary text-sm md:text-md">
 							<p>Мощный движок</p>
-							<span className="text-sm">Профессиональный анализ</span>
+							<span className="text-xs md:text-sm">Профессиональный анализ</span>
 						</div>
 					</div>
 				</div>
@@ -61,10 +61,10 @@ export const AnimatedFeatures = () => {
 				<div className="flex items-start  gap-2 about-item">
 					<Target className="text-accent size-10" />
 					<div className="flex flex-col justify-between gap-5">
-						<h1 className="text-2xl font-bold">Детальная статистика</h1>
-						<div className="text-secondary text-md">
+						<h1 className="text-xl md:text-2xl font-bold">Детальная статистика</h1>
+						<div className="text-secondary text-sm md:text-md">
 							<p>Ошибок, неточности</p>
-							<span className="text-sm">и лучшие ходы</span>
+							<span className="text-xs md:text-sm">и лучшие ходы</span>
 						</div>
 					</div>
 				</div>
@@ -73,10 +73,10 @@ export const AnimatedFeatures = () => {
 				<div className="flex items-start gap-2 about-item">
 					<FastForward className="text-accent size-10" />
 					<div className="flex flex-col justify-between gap-5">
-						<h1 className="text-2xl font-bold">Быстрый анализ</h1>
-						<div className="text-secondary text-md">
+						<h1 className="text-xl md:text-2xl font-bold">Быстрый анализ</h1>
+						<div className="text-secondary text-sm md:text-md">
 							<p>Результат за</p>
-							<span className="text-sm">несколько секунд</span>
+							<span className="text-xs md:text-sm">несколько секунд</span>
 						</div>
 					</div>
 				</div>

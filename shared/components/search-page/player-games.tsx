@@ -53,7 +53,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 										<span className="text-sm md:text-base lg:text-lg">{convertTimeControl(game.time_control)}</span>
 									</div>
 								</TableCell>
-								<TableCell className="w-[200px] max-w-[200px]">
+								<TableCell className="max-w-[150px]">
 									<div className="flex min-w-0  flex-col text-base md:text-lg lg:text-xl font-bold">
 										<div className="flex min-w-0 items-center gap-2">
 											<div className="h-3 w-3 shrink-0 bg-white" />
@@ -61,7 +61,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 											<div className="flex min-w-0 flex-1">
 												<span className={`min-w-0 truncate ${player === game.white.username ? "text-accent/90" : ""}`}>{game.white.username}</span>
 
-												<span className="shrink-0">({game.white.rating})</span>
+												<span className="hidden md:flex shrink-0">({game.white.rating})</span>
 											</div>
 										</div>
 
@@ -71,7 +71,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 											<div className="flex min-w-0 flex-1">
 												<span className={`min-w-0 truncate ${player === game.black.username ? "text-accent/90" : ""}`}>{game.black.username}</span>
 
-												<span className="shrink-0">({game.black.rating})</span>
+												<span className="shrink-0 hidden md:flex">({game.black.rating})</span>
 											</div>
 										</div>
 									</div>
@@ -100,16 +100,16 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 										</div>
 										<div className="p-1 glass-effect">
 											{playerResult === "win" ? (
-												<Plus className="text-accent size-4 " />
+												<Plus className="text-accent size-2" />
 											) : playerResult === "draw" || playerResult === "agreed" ? (
-												<CircleSlash2 className="text-primary size-4" />
+												<CircleSlash2 className="text-primary size-2" />
 											) : (
-												<Minus className="text-red-500 size-4" />
+												<Minus className="text-red-500 size-2" />
 											)}
 										</div>
 									</div>
 								</TableCell>
-								<TableCell className="w-[100px]">
+								<TableCell className="w-[100px] ">
 									<span className="hidden md:block text-base md:text-lg lg:text-xl font-bold">{getGameDate(game.end_time, false)}</span>
 									<span className="block md:hidden text-base md:text-lg lg:text-xl font-bold">{getGameDate(game.end_time, true)}</span>
 								</TableCell>

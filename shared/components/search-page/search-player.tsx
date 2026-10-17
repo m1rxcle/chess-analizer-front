@@ -59,7 +59,7 @@ export const SearchPlayer: React.FC<Props> = ({ setLoading, setTotalGames, setGa
 					placeholder="Введите никнейм игрока "
 					className={cn(
 						`focus-visible:ring-0  py-8 pl-12 md:pl-15  border border-white/10 rounded-4xl font-bold text-xl md:text-2xl, 
-						 placeholder:text-base placeholder:text-md:text-lg placeholder:lg:text-2xl transition-all duration-300 ease-in-out`,
+						 placeholder:text-sm placeholder:text-md:text-lg placeholder:lg:text-2xl transition-all duration-300 ease-in-out`,
 						ErrorMessage ? "border-red-500" : "",
 					)}
 				/>
@@ -67,7 +67,7 @@ export const SearchPlayer: React.FC<Props> = ({ setLoading, setTotalGames, setGa
 
 				<Button
 					onClick={() => onSubmit(value)}
-					className="cursor-pointer text-md md:text-lg lg:text-xl absolute right-2 top-2 py-6 px-3 md:px-6 rounded-3xl bg-accent text-primary hover:bg-accent/80 transition-colors duration-300 ease-in-out"
+					className="cursor-pointer text-sm md:text-lg lg:text-xl absolute right-2 top-2 px-1 py-6 md:px-6  rounded-3xl bg-accent text-primary hover:bg-accent/80 transition-colors duration-300 ease-in-out"
 				>
 					Найти игрока
 				</Button>

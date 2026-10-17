@@ -26,7 +26,6 @@ export function getGameDate(timestamp: string, isMobile: boolean = false): strin
 		result = dateObj.toLocaleString("ru-RU", {
 			day: "2-digit",
 			month: "2-digit",
-			year: "2-digit",
 		})
 	}
 
