@@ -93,7 +93,7 @@ export const GameDetails: React.FC<Props> = ({
 						})
 					)}
 				</ul>
-				<div className="hidden lg:flex flex-col items-center justify-center gap-2 ">
+				<div className="hidden lg:flex flex-col items-center justify-center gap-3">
 					{analysis && analysis.length > 0 ? (
 						<AnalysisData analysis={analysis} blackPlayer={blackPlayer || ""} whitePlayer={whitePlayer || ""} />
 					) : (

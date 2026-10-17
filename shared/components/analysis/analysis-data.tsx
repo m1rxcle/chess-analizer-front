@@ -65,7 +65,7 @@ export const AnalysisData: React.FC<Props> = ({ whitePlayer, blackPlayer, analys
 				<h2 className="text-lg lg:text-2xl font-bold text-center text-accent">Анализ вашей партии</h2>
 				<div className="flex items-center justify-between w-full glass-effect px-4 py-5 rounded-3xl">
 					<div className="flex flex-col gap-2">
-						<h2 className="font-bold text-sm lg:text-xl truncate w-40">{whitePlayer}: </h2>
+						<h2 className="font-bold text-sm lg:text-xl truncate max-w-36 md:max-w-40 w-40">{whitePlayer}: </h2>
 						<div className="flex flex-col gap-2 lg:gap-0">
 							<div className="flex items-center gap-2">
 								<img src="/icons/best-move.svg" alt="best move icon" className="w-6 h-6" />
@@ -92,7 +92,7 @@ export const AnalysisData: React.FC<Props> = ({ whitePlayer, blackPlayer, analys
 					</div>
 
 					<div className="flex flex-col gap-2">
-						<h2 className="font-bold text-sm lg:text-xl truncate w-40 text-secondary">{blackPlayer}: </h2>
+						<h2 className="font-bold text-sm lg:text-xl truncate  max-w-36 md:max-w-40 w-40 text-secondary">{blackPlayer}: </h2>
 						<div className="flex flex-col gap-2 lg:gap-0">
 							<div className="flex items-center gap-2">
 								<img src="/icons/best-move.svg" alt="best move icon" className="w-6 h-6" />

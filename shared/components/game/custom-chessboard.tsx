@@ -114,7 +114,13 @@ export const CustomChessboard: React.FC<Props> = ({
 								<div className={cn("relative h-full w-full", loading ? "pointer-events-none " : "")} style={squareStyle}>
 									<div className={loading && piece !== null && showEvaluation ? "opacity-50" : ""}>{children}</div>
 
-									{showEvaluation && !loading && <img src={getEvaluationIcon} alt="evaluation" className="absolute -right-4 -top-2 z-20 w-14 h-8 " />}
+									{showEvaluation && !loading && (
+										<img
+											src={getEvaluationIcon}
+											alt="evaluation"
+											className="absolute -right-2 -top-1 md:-right-4 md:-top-2 z-20 w-6 h-4 md:w-14 md:h-8 "
+										/>
+									)}
 									{showEvaluation && loading && (
 										<div className="absolute -right-6 -top-3 z-20 w-14 h-8 flex items-center justify-center">
 											<Loader2 className="animate-spin" />
