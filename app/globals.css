@@ -138,3 +138,17 @@
 		@apply bg-linear-to-br from-white/5 via-white/6 to-transparent backdrop-blur-2xl border border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_60px_rgba(0,0,0,0.25)];
 	}
 }
+
+.animate-analysis-fill {
+	animation: analysis-fill 30s linear forwards;
+}
+
+@keyframes analysis-fill {
+	from {
+		transform: scaleX(0);
+	}
+
+	to {
+		transform: scaleX(1);
+	}
+}
