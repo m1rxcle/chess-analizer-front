@@ -28,9 +28,9 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 				<TableHeader>
 					<TableRow className="border-accent bg-transparent hover:bg-transparent">
 						<TableHead></TableHead>
-						<TableHead className="text-accent font-bold text-base md:text-lg lg:text-xl">Шахматисты</TableHead>
-						<TableHead className="text-accent font-bold text-base md:text-lg lg:text-xl">Результат</TableHead>
-						<TableHead className="text-accent font-bold text-base md:text-lg lg:text-xl">Дата</TableHead>
+						<TableHead className="text-accent font-bold text-sm md:text-lg lg:text-xl">Шахматисты</TableHead>
+						<TableHead className="text-accent font-bold text-sm md:text-lg lg:text-xl">Результат</TableHead>
+						<TableHead className="text-accent font-bold text-sm md:text-lg lg:text-xl">Дата</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -53,7 +53,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 										<span className="text-sm md:text-base lg:text-lg">{convertTimeControl(game.time_control)}</span>
 									</div>
 								</TableCell>
-								<TableCell className="max-w-[150px]">
+								<TableCell className="max-w-[150px] w-[150px]">
 									<div className="flex min-w-0  flex-col text-base md:text-lg lg:text-xl font-bold">
 										<div className="flex min-w-0 items-center gap-2">
 											<div className="h-3 w-3 shrink-0 bg-white" />
@@ -77,7 +77,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 									</div>
 								</TableCell>
 
-								<TableCell className="w-[50px]">
+								<TableCell className="w-[50px] max-w-[50px]">
 									<div className="hidden lg:flex items-center gap-4">
 										<div className="hidden lg:flex flex-col text-base md:text-lg lg:text-xl font-bold">
 											<span>{game.white.result === "win" ? "1" : "0"}</span>
@@ -94,7 +94,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 										</div>
 									</div>
 									<div className="flex items-center gap-2 lg:hidden">
-										<div className="flex items-center text-lg">
+										<div className="flex items-center text-base">
 											<span>{game.white.result === "win" ? "1" : "0"}:</span>
 											<span>{game.black.result === "win" ? "1" : "0"}</span>
 										</div>
@@ -109,7 +109,7 @@ export const PlayerGames: React.FC<Props> = ({ gamesList, isRecentGames, player,
 										</div>
 									</div>
 								</TableCell>
-								<TableCell className="w-[100px] ">
+								<TableCell className="w-[100px] max-w-[100px]">
 									<span className="hidden md:block text-base md:text-lg lg:text-xl font-bold">{getGameDate(game.end_time, false)}</span>
 									<span className="block md:hidden text-base md:text-lg lg:text-xl font-bold">{getGameDate(game.end_time, true)}</span>
 								</TableCell>

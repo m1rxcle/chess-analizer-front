@@ -129,7 +129,7 @@ export const Header = ({ isHomePage = false }: Props) => {
 							className="hover:no-underline bg-transparent py-4 border border-accent text-accent hover:bg-accent/30 hover:text-white transition-colors duration-300 ease-in-out cursor-pointer text-sm"
 						>
 							<ChevronLeft className="size-4" />
-							<span className="text-lg">Назад</span>
+							<span className="text-sm">Назад</span>
 						</Button>
 					)}
 				</div>
