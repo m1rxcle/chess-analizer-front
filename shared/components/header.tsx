@@ -20,6 +20,9 @@ export const Header = ({ isHomePage = false }: Props) => {
 	const router = useRouter()
 
 	useEffect(() => {
+		const isMobile = window.innerWidth < 1024
+
+		if (isMobile) return
 		const handleScroll = () => {
 			const headerOffset = 350
 

@@ -7,7 +7,7 @@ import Link from "next/link"
 gsap.registerPlugin(ScrollTrigger)
 export const AnimatedHowItWorks = () => {
 	useGSAP(() => {
-		gsap.from("#how-it-works-item", {
+		gsap.from(".how-it-works-item", {
 			y: 100,
 			opacity: 0,
 			duration: 1,
@@ -37,7 +37,7 @@ export const AnimatedHowItWorks = () => {
 			duration: 3,
 			ease: "power2.out",
 			scrollTrigger: {
-				trigger: "#how-it-works-item",
+				trigger: ".how-it-works-item",
 				start: "top 80%",
 			},
 			stagger: 0.3,
@@ -59,7 +59,7 @@ export const AnimatedHowItWorks = () => {
 	return (
 		<section id="how-it-works" className="min-h-screen mx-5 md:mx-10 scroll-mt-24 overflow-hidden">
 			<div className="flex flex-col md:flex-row gap-10">
-				<div id="how-it-works-item" className="glass-effect px-8 py-10 rounded-3xl space-y-8">
+				<div className="glass-effect px-8 py-10 rounded-3xl space-y-8 how-it-works-item">
 					<h1 className="text-2xl font-bold">Как это работает?</h1>
 
 					<div className="flex flex-col h-full gap-10 justify-around">
@@ -107,7 +107,7 @@ export const AnimatedHowItWorks = () => {
 					</div>
 				</div>
 
-				<div id="how-it-works-item" className="glass-effect rounded-3xl px-8 py-10 w-full">
+				<div className="glass-effect rounded-3xl px-8 py-10 w-full how-it-works-item">
 					<h1 className="text-2xl font-bold mb-8">Пример анализа</h1>
 					<div className="flex flex-col md:items-start gap-4 lg:flex-row lg:justify-between ">
 						<video className="rounded-lg w-full lg:w-1/2 pointer-events-none" src="/videos/how-it-works.mp4" muted autoPlay loop playsInline />
